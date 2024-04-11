@@ -19,7 +19,6 @@ public class FinestraLogin extends JFrame{
 	private PannelloOvest p1=null;
 	private PannelloLogin p2=null;
 	
-	
 	//TextFields
     JTextField email = new JTextField();
     JPasswordField password = new JPasswordField();
@@ -31,7 +30,6 @@ public class FinestraLogin extends JFrame{
     JLabel subscribe = new JLabel("altrimenti");
     JLabel welcome = new JLabel("INGEGNERIA DEL SOFTWARE");
     JLabel projectName = new JLabel("<html><center>Progetto Asta on-line<br>Power by<br>Manuel Ganino<br>matricola 219928<center></html>");
-
     
     //componenti multimediali
     JLabel imgLabel = new JLabel(new ImageIcon("src/main/resources/images/user.png"));
@@ -40,8 +38,7 @@ public class FinestraLogin extends JFrame{
     JButton enter = new JButton("INVIO");
     JButton subscribeButton = new JButton("REGISTRATI");
     
-    //ritocchi grafici	
-	public FinestraLogin() {
+    public FinestraLogin() {
 		setTitle("Asta Online");
 		setSize(800,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,53 +52,53 @@ public class FinestraLogin extends JFrame{
 	
 	private class PannelloLogin extends JPanel{
 		private static final long serialVersionUID = 1L;
+		
+		private JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel img = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel emailPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel enterPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel subscribePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 		public PannelloLogin() {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
+            
+            //ritocchi grafici
             email.setPreferredSize(new Dimension(150,25));
             password.setPreferredSize(new Dimension(150,25));
-
             login.setFont(new Font(login.getFont().getName(), login.getFont().getStyle(), 25));
-
-            JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            titlePanel.add(login);
-            JPanel img = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            img.add(imgLabel);
-
-            add(titlePanel);
-            add(img);
-
-            // Pannello per email
-            JPanel emailPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            emailPanel.add(emailLabel);
-            emailPanel.add(email);
-            add(emailPanel);
-
-            // Pannello per password
-            JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            passwordPanel.add(passwordLabel);
-            passwordPanel.add(password);
-            add(passwordPanel);
             
-            JPanel enterPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            enterPanel.add(enter);
+            //aggiunta eventi agli elementi
             enter.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
                       new FinestraHome().setVisible(true);
                       dispose();
                 }
             });
-            add(enterPanel);
-			
-            JPanel subscribePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            subscribePanel.add(subscribe);
-            subscribePanel.add(subscribeButton);
             subscribeButton.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
                       new FinestraSubscribe().setVisible(true);
                       dispose();
                 }
             });
+            
+            //aggiunta dei rispettivi elementi ai pannelli
+            titlePanel.add(login);
+            img.add(imgLabel);
+            emailPanel.add(emailLabel);
+            emailPanel.add(email);
+            passwordPanel.add(passwordLabel);
+            passwordPanel.add(password);
+            enterPanel.add(enter);
+            subscribePanel.add(subscribe);
+            subscribePanel.add(subscribeButton);
+
+            
+            add(titlePanel);
+            add(img);
+            add(emailPanel);
+            add(passwordPanel);
+            add(enterPanel);
             add(subscribePanel);
 		}
 	}
@@ -112,15 +109,19 @@ public class FinestraLogin extends JFrame{
 		public PannelloOvest() {
             setLayout(new GridBagLayout());
             setBackground(Color.orange);
+            
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 0;
             gbc.weightx = 1.0;
             gbc.weighty = 1.0;
             gbc.anchor = GridBagConstraints.CENTER;
+            
             welcome.setForeground(Color.white);
             welcome.setFont(new Font(login.getFont().getName(), login.getFont().getStyle(), 20));
+            
             projectName.setHorizontalAlignment(SwingConstants.CENTER);
+            
             add(welcome, gbc);
             gbc.gridy++;
             add(projectName, gbc);

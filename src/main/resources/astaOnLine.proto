@@ -33,22 +33,24 @@ message MessaggioGenerico {
 message Empty {
 }
 
-service AstaService {
-  rpc RegistraUtente (Utente) returns (Empty);
+message Articoli {
+	repeated Articolo articoli = 1;
+}
 
-  rpc AccediUtente (Utente) returns (Empty);
+service AstaService {
+  rpc RegistraUtente (Utente) returns (MessaggioGenerico);
+
+  rpc AccediUtente (Utente) returns (MessaggioGenerico);
 
   rpc NotificaSuccesso (Empty) returns (MessaggioGenerico);
 
-  rpc GetArticoloInfo (Empty) returns (Articolo);
+  rpc VisualizzaArticoliAcquistati (Utente) returns (Articoli);
 
-  rpc VisualizzaArticoliAcquistati (Utente) returns (stream Articolo);
-
-  rpc VisualizzaArticoliRegistrati (Utente) returns (stream Articolo);
+  rpc VisualizzaArticoliRegistrati (Utente) returns (Articoli);
 
   rpc InviaOfferta (Offerta) returns (MessaggioGenerico);
 
-  rpc GetArticoliInVendita (Empty) returns (stream Articolo);
+  rpc GetArticoliInVendita (Empty) returns (Articoli);
 
   rpc RiceviNotifiche (Empty) returns (MessaggioGenerico);
 }

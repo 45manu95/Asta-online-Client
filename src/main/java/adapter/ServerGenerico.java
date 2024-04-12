@@ -8,7 +8,14 @@ import astaOnlineProto.AstaOnLine.MessaggioGenerico;
 import astaOnlineProto.AstaOnLine.Offerta;
 import astaOnlineProto.AstaOnLine.Utente;
 
-public interface Server {
+/**
+ * DESIGN PATTERN ADAPTER
+ * Target: L'interfaccia Server rappresenta il Target. s
+ * Questa è l'interfaccia che il client del nostro sistema utilizza 
+ * per eseguire le operazioni di asta, come avviare il sistema o terminarlo.
+ */
+
+public interface ServerGenerico {
     /**
      * apriSocket() instaura una connessione.
      *
@@ -30,8 +37,9 @@ public interface Server {
      * @param utente serve per trasferire le sue informazioni per la registrazione
      * @return un messaggio di avvenuta registrazione o di un imprevisto (es. email esistente)
      * @see Utente
+     * @see MessaggioGenerico
      */
-    Empty registraUtente(Utente utente); //
+    MessaggioGenerico registraUtente(Utente utente); //
 
     /**
     * accediUtente() fa accedere l'utente al sistema
@@ -39,8 +47,9 @@ public interface Server {
     * @param utente serve per trasferire le sue informazioni per l'accesso
     * @return un messaggio di avvenuto accesso o di un imprevisto (es. password errata)
     * @see Utente
+    * @see MessaggioGenerico
     */
-    Empty accediUtente(Utente utente);
+    MessaggioGenerico accediUtente(Utente utente);
 	
     /**
     * notificaSuccesso() fa accedere l'utente al sistema
@@ -50,14 +59,6 @@ public interface Server {
     * @see MessaggioGenerico
     */
 	MessaggioGenerico notificaSuccesso(Empty empty);
-	
-    /**
-    * getArticoloInfo() ottiene informazioni su un articolo
-    * 
-    * @return Articolo con tutte le sue informazioni
-    * @see Articolo
-    */
-	Articolo getArticoloInfo(Empty empty);
 	
     /**
     * visualizzaArticoliAcquistati() visualizza gli articoli acquistati da utente

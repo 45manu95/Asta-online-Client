@@ -3,6 +3,7 @@ package adapter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import astaOnlineProto.AstaOnLine.Articoli;
 import astaOnlineProto.AstaOnLine.Articolo;
 import astaOnlineProto.AstaOnLine.Empty;
 import astaOnlineProto.AstaOnLine.MessaggioGenerico;
@@ -12,7 +13,25 @@ import astaOnlineProto.AstaServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
-public class ServerGrpc implements Server {
+/*
+ * DESIGN PATTERN ADAPTER
+ * Possiamo identificare le seguenti componenti in questo file java:
+ * 
+ * Adapter: La classe ServerGrpc funge da Adapter. Questa classe adatta 
+ * l'interfaccia del server gRPC alle operazioni di asta richieste all'interno 
+ * del nostro sistema.
+ * 
+ * Adaptee: Il server gRPC (come rappresentato dalla classe generata 
+ * AstaServiceGrpc.AstaServiceBlockingStub) funge da Adaptee. 
+ * Questo è l'oggetto con cui il nostro Adapter (la classe GRPCAdapter) 
+ * deve interagire per eseguire le operazioni di asta. 
+ * Tuttavia, l'interfaccia fornita dal server gRPC potrebbe non essere 
+ * compatibile direttamente con l'interfaccia del nostro 
+ * sistema, quindi abbiamo bisogno di un adattatore per far sì che le due 
+ * interfacce siano compatibili.
+ */
+
+public class ServerGrpc implements ServerGenerico {
 	  private  ManagedChannel channel;
 	  private  AstaServiceGrpc.AstaServiceBlockingStub blockingStub;
 	  
@@ -50,57 +69,56 @@ public class ServerGrpc implements Server {
 	  }
 
 	  @Override
-	  public Empty registraUtente(Utente utente) {
-		  // TODO Auto-generated method stub
-		return null;
+	  public MessaggioGenerico registraUtente(Utente utente) {
+		MessaggioGenerico messaggio = blockingStub.registraUtente(utente);
+		return messaggio;
 	  }
 
 	  @Override
-	  public Empty accediUtente(Utente utente) {
-		  // TODO Auto-generated method stub
-		return null;
+	  public MessaggioGenerico accediUtente(Utente utente) {
+		MessaggioGenerico messaggio = blockingStub.accediUtente(utente);
+		return messaggio;
 	  }
 
 	  @Override
 	  public MessaggioGenerico notificaSuccesso(Empty empty) {
-		  // TODO Auto-generated method stub
-		  return null;
-	  }
-
-	  @Override
-	  public Articolo getArticoloInfo(Empty empty) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  MessaggioGenerico messaggio = blockingStub.notificaSuccesso(empty);
+		  return messaggio;
 	  }
 
 	  @Override
 	  public List<Articolo> visualizzaArticoliAcquistati(Utente utente) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  Articoli articoli = blockingStub.visualizzaArticoliAcquistati(utente);
+		  List<Articolo> listaArticoli = articoli.getArticoliList();
+		  return listaArticoli;
 	  }
 
 	  @Override
 	  public List<Articolo> visualizzaArticoliRegistrati(Utente utente) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  Articoli articoli = blockingStub.visualizzaArticoliRegistrati(utente);
+		  List<Articolo> listaArticoli = articoli.getArticoliList();
+		  return listaArticoli;
 	  }
 
 	  @Override
 	  public MessaggioGenerico inviaOfferta(Offerta offerta) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  MessaggioGenerico messaggio = blockingStub.inviaOfferta(offerta);
+		  return messaggio;
 	  }
 
 	  @Override
 	  public List<Articolo> getArticoliInVendita(Empty empty) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  Empty request = Empty.newBuilder().build();
+		  Articoli articoli = blockingStub.getArticoliInVendita(request);
+		  List<Articolo> listaArticoli = articoli.getArticoliList();
+		  return listaArticoli;
 	  }
 
 	  @Override
 	  public MessaggioGenerico riceviNotifiche(Empty empty) {
-		  // TODO Auto-generated method stub
-		  return null;
+		  Empty request = Empty.newBuilder().build();
+		  MessaggioGenerico messaggio = blockingStub.riceviNotifiche(request);
+		  return messaggio;
 	  }
 
 }

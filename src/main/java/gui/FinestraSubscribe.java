@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import mediator.AccediMediator;
+
 
 
 public class FinestraSubscribe extends JFrame{
@@ -40,9 +42,7 @@ public class FinestraSubscribe extends JFrame{
 	private JLabel emailLabel = new JLabel("Email:");
 	private JLabel passwordLabel = new JLabel("Password:");
 	
-	//JButton
-	private JButton subscribeButton= new JButton("Iscriviti");
-
+	AccediMediator accediMediator;
 
 	public FinestraSubscribe() {
 		setTitle("Asta Online - Iscrizione");
@@ -56,7 +56,9 @@ public class FinestraSubscribe extends JFrame{
         });		
         setLocationRelativeTo(null);
 		setResizable(false);
+		
 		add(p1 = new CentralPanel());
+	
 	}
 	
 	private class CentralPanel extends JPanel {
@@ -70,6 +72,9 @@ public class FinestraSubscribe extends JFrame{
 		private JPanel emailDisposition = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		private JPanel passwordDisposition = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		private JPanel buttonDisposition = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
+		//JButton
+		private JButton subscribeButton= new JButton("Iscriviti");
 
 		
 		public CentralPanel() {
@@ -82,10 +87,14 @@ public class FinestraSubscribe extends JFrame{
             email.setPreferredSize(new Dimension(150,25));
             password.setPreferredSize(new Dimension(150,25));
             
+            
             subscribeButton.addActionListener(new ActionListener() {
+            	@Override
             	public void actionPerformed(ActionEvent e) {
-                    new FinestraHome().setVisible(true);
-                    dispose();
+            		accediMediator = new AccediMediator();
+            		accediMediator.setBottoneIscriviti(subscribeButton);
+            		accediMediator.setDatiIscrizione(name, surname, email, password);
+            		accediMediator.notify(subscribeButton);
               }
           });
             

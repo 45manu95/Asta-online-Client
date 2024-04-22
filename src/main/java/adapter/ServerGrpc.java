@@ -37,7 +37,7 @@ public class ServerGrpc implements ServerGenerico {
 	  
 	  @Override
 	  public void openSocket(String host, int port) {
-	        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).useTransportSecurity().build();
+	        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 	        /*
 	         * useTransportSecurity() indica che si desidera utilizzare una connessione 
 	         * sicura per la comunicazione con il server gRPC. Particolarmente utile in
@@ -66,6 +66,10 @@ public class ServerGrpc implements ServerGenerico {
 	         * per evitare blocchi infiniti nel caso in cui il canale non si 
 	         * chiuda correttamente per qualche motivo.
 	         */
+	  }
+	  
+	  public AstaServiceGrpc.AstaServiceBlockingStub getBlockingStub() {
+	        return blockingStub;
 	  }
 
 	  @Override

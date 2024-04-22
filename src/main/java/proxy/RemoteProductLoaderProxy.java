@@ -38,6 +38,7 @@ public class RemoteProductLoaderProxy implements ProductLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //mancata connessione
         return List.of();
     }
 

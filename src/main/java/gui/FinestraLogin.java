@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import mediator.AccediMediator;
+
 
 public class FinestraLogin extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -38,6 +40,8 @@ public class FinestraLogin extends JFrame{
     JButton enter = new JButton("INVIO");
     JButton subscribeButton = new JButton("REGISTRATI");
     
+    AccediMediator accediMediator;
+    
     public FinestraLogin() {
 		setTitle("Asta Online");
 		setSize(800,600);
@@ -46,6 +50,7 @@ public class FinestraLogin extends JFrame{
 		setLayout(new GridLayout(1,2));
 		setBackground(Color.WHITE);
 		setResizable(false);
+		
 		add(p1 = new PannelloOvest());
 		add(p2 = new PannelloLogin());
 	}
@@ -71,11 +76,15 @@ public class FinestraLogin extends JFrame{
             //aggiunta eventi agli elementi
             enter.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
-                      new FinestraHome().setVisible(true);
-                      dispose();
+            		accediMediator = new AccediMediator();
+            		accediMediator.setBottoneAccedi(enter);
+            		accediMediator.setDatiAccesso(email, password);
+            		accediMediator.notify(enter);
                 }
             });
+			
             subscribeButton.addActionListener(new ActionListener() {
+            	@Override
             	public void actionPerformed(ActionEvent e) {
                       new FinestraSubscribe().setVisible(true);
                       dispose();

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,7 +17,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import astaOnlineProto.AstaOnLine.Articolo;
+import proxy.*;
 import mediator.AccediMediator;
 
 
@@ -25,7 +29,6 @@ public class FinestraHome extends JFrame {
 	
 	private PannelloOvest p1=null;
 	private PannelloCentrale p2=null;
-
 	
 	//TextFields
     JTextField email = new JTextField();
@@ -127,6 +130,17 @@ public class FinestraHome extends JFrame {
 		        centralInfo.add(info);
 		        
 		        add(centralInfo, gbc);
+		        
+	            ProductLoader productLoader = new RemoteProductLoaderProxy(new RealProduct());
+	            new Thread(() -> {
+	                List<Articolo> products = productLoader.loadProducts();
+	                SwingUtilities.invokeLater(() -> {
+	                    // Quando il caricamento è completato, aggiorna l'etichetta di informazioni
+	                    info.setText("Caricamento completato.");
+	                });
+	            }).start();
+	        }
+
 		}
 
 		

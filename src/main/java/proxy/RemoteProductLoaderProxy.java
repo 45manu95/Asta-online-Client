@@ -12,7 +12,7 @@ import astaOnlineProto.AstaOnLine.Articolo;
  */
 
 public class RemoteProductLoaderProxy implements ProductLoader {
-	private ProductLoader realProductLoader;
+	private RealProduct realProductLoader;
 
     @Override
     public List<Articolo> loadProducts() {
@@ -20,21 +20,16 @@ public class RemoteProductLoaderProxy implements ProductLoader {
     	 * controllo connessione di rete
     	 */
         try {
-            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-            while (networkInterfaces.hasMoreElements()) {
-                NetworkInterface networkInterface = networkInterfaces.nextElement();
-                if (networkInterface.isUp() && !networkInterface.isLoopback()) {
-                    Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
-                    while (addresses.hasMoreElements()) {
-                        InetAddress address = addresses.nextElement();
-                        if (!address.isLinkLocalAddress() && !address.isLoopbackAddress() && !address.isSiteLocalAddress()) {
-                        	if(realProductLoader == null) {
-                                return realProductLoader.loadProducts();
-                        	}
-                        }
-                    }
-                }
-            }
+        	int timeout = 2000;
+        	InetAddress[] addresses = InetAddress.getAllByName("127.0.0.1");
+        	  for (InetAddress address : addresses) {
+        	    if (address.isReachable(timeout))
+        	       	if(realProductLoader == null) {
+        	       		realProductLoader = new RealProduct();
+                        return realProductLoader.loadProducts();
+                	}
+        	  }
+        	
         } catch (Exception e) {
             e.printStackTrace();
         }

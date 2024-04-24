@@ -2,9 +2,12 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
 
@@ -16,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -131,21 +135,28 @@ public class FinestraHome extends JFrame {
 		        
 		        add(centralInfo, gbc);
 		        
-	            ProductLoader productLoader = new RemoteProductLoaderProxy(new RealProduct());
+		        RemoteProductLoaderProxy productLoader = new RemoteProductLoaderProxy();
 	            new Thread(() -> {
+	            	
+	            	
 	                List<Articolo> products = productLoader.loadProducts();
 	                SwingUtilities.invokeLater(() -> {
-	                    // Quando il caricamento è completato, aggiorna l'etichetta di informazioni
-	                    info.setText("Caricamento completato.");
+		                
+		                showProducts.setLayout(new GridLayout(0, 3));
+	                    for (Articolo product : products) {
+	                    	ProductPanel productPanel = new ProductPanel(product);
+	                        showProducts.add(productPanel);
+	                    }
+	                    remove(centralInfo);
+	                    setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+	                    JScrollPane scrollPane = new JScrollPane(showProducts);
+	                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		                add(scrollPane, gbc);
+	                    revalidate(); 
 	                });
 	            }).start();
 	        }
 
 		}
-
-		
-		
 		
 	}
-
-}

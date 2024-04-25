@@ -102,7 +102,6 @@ public class FinestraLogin extends JFrame{
             subscribePanel.add(subscribe);
             subscribePanel.add(subscribeButton);
 
-            
             add(titlePanel);
             add(img);
             add(emailPanel);

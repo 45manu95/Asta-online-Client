@@ -1,6 +1,8 @@
 package command;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,10 +11,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import astaOnlineProto.AstaOnLine.MessaggioGenerico;
 import astaOnlineProto.AstaOnLine.Utente;
 import gui.FinestraHome;
+import gui.FinestraLogin;
+import gui.FinestraSubscribe;
 import singleton.ServerIstance;
 import utils.Utils;
 
@@ -56,6 +61,7 @@ public class AccessCommand implements ActionListener {
 	            public void actionPerformed(ActionEvent e) {
 	                new FinestraHome().setVisible(true);
                     frameMessage.dispose();
+	                chiudiFinestreAperte();
 	            }
 	        });
 		}
@@ -65,6 +71,8 @@ public class AccessCommand implements ActionListener {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	                frameMessage.dispose();
+	                chiudiFinestreAperte();
+	                new FinestraLogin().setVisible(true);
 	            }
 	        });
 		}
@@ -81,6 +89,16 @@ public class AccessCommand implements ActionListener {
 
 		frameMessage.add(panel);
 		frameMessage.pack(); 
+	}
+	
+	private void chiudiFinestreAperte() {
+		Window[] windows = Window.getWindows();
+        for (Window window : windows) {
+            if (window instanceof JFrame && window.isVisible()) {
+                ((JFrame) window).dispose();
+                break; // Uscita dal ciclo dopo aver chiuso il frame desiderato
+            }
+        }
 	}
 
 }

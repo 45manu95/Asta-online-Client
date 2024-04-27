@@ -94,17 +94,33 @@ public class ProductPanel extends JPanel {
         }
     }
 	
+	/**
+	 * Alcune JLabel e JPanel sono state ricreate anche in questa inner class (senza chiamarle per riferimento dalla classe superiore)
+	 * per il motivo secondo il quale nel momento in cui si chiudeva la schermata di
+	 * descrizione del prodotto veniva invocato il dispose anche su quegli oggetti di riferimento
+	 * e quindi scomparivano anche dalla schermata di visualizzazione dei prodotti in vendita (usciva un riquadro bianco)
+	 * @see title
+	 */
+	
 	private class ShowProduct extends JFrame {
 		private static final long serialVersionUID = 1L;
 		
 	    private Timer timer;
 		
 		private JPanel disposition = new JPanel();
+		private JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel descriptionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		private JPanel pricePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		private JPanel dateStartDisposition = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		private JPanel dateEndDisposition = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		private JPanel timerDisposition = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		private JPanel buttonDisposition = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
+		private JLabel title;
+		private JLabel imageProduct;
+		private JLabel description;
+		private JLabel price;
 		private JLabel start;
 		private JLabel end;
 		private JLabel countdownLabel = new JLabel();
@@ -125,6 +141,12 @@ public class ProductPanel extends JPanel {
 			start = new JLabel("Data inserimento articolo = "+articolo.getDataInizio().replace("T", " "));
 			end = new JLabel("Data fine asta = "+articolo.getDataFine().replace("T", " "));
 			
+			offer.addActionListener(new ActionListener() {
+	        	@Override
+	        	public void actionPerformed(ActionEvent e) {
+	                  new FinestraOfferta(articolo).setVisible(true);
+	            }
+	        });
 						
 			timer = new Timer(1000, new ActionListener() {
 	            @Override
@@ -134,6 +156,23 @@ public class ProductPanel extends JPanel {
 	        });
 	        timer.start();
 	        
+			//otteniamo l'immagine
+			ByteString byteString = articolo.getImmagine();
+			byte[] imageData = byteString.toByteArray();
+	        ImageIcon imageIcon = creaImageIcon(imageData);
+	        
+	        title = new JLabel(articolo.getNome().toUpperCase());
+	        imageProduct = new JLabel(imageIcon);
+	        description = new JLabel(articolo.getDescrizione());
+	        price = new JLabel(String.valueOf(articolo.getValorePartenza())+ " €");
+	        
+	        title.setFont(title.getFont().deriveFont(Font.BOLD, 16));
+			
+			titlePanel.add(title);
+			imagePanel.add(imageProduct);
+			descriptionPanel.add(description);
+			pricePanel.add(price);
+	
 			dateStartDisposition.add(start);
 			dateEndDisposition.add(end);
 			timerDisposition.add(countdownLabel);

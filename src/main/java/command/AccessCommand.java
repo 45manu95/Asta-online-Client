@@ -1,6 +1,5 @@
 package command;
 
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -11,14 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import astaOnlineProto.AstaOnLine.MessaggioGenerico;
 import astaOnlineProto.AstaOnLine.Utente;
 import gui.FinestraHome;
 import gui.FinestraLogin;
-import gui.FinestraSubscribe;
 import singleton.ServerIstance;
+import singleton.UserIstance;
 import utils.Utils;
 
 public class AccessCommand implements ActionListener {
@@ -62,6 +60,7 @@ public class AccessCommand implements ActionListener {
 	                new FinestraHome().setVisible(true);
                     frameMessage.dispose();
 	                chiudiFinestreAperte();
+	                UserIstance.setDati(email, password);
 	            }
 	        });
 		}

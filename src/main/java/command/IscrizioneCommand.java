@@ -15,7 +15,7 @@ import astaOnlineProto.AstaOnLine.MessaggioGenerico;
 import astaOnlineProto.AstaOnLine.Utente;
 import gui.FinestraHome;
 import singleton.ServerIstance;
-
+import singleton.UserIstance;
 import utils.Utils;
 
 
@@ -61,6 +61,7 @@ public class IscrizioneCommand implements ActionListener {
 	            public void actionPerformed(ActionEvent e) {
 	                new FinestraHome().setVisible(true);
                     frameMessage.dispose();
+	                UserIstance.setDati(email, password);
 	            }
 	        });
 		}

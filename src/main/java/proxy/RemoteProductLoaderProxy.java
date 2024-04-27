@@ -15,7 +15,7 @@ public class RemoteProductLoaderProxy implements ProductLoader {
 	private RealProduct realProductLoader;
 
     @Override
-    public List<Articolo> loadProducts() {
+    public List<Articolo> loadProducts(int id) {
     	/**
     	 * controllo connessione di rete
     	 */
@@ -26,7 +26,7 @@ public class RemoteProductLoaderProxy implements ProductLoader {
         	    if (address.isReachable(timeout))
         	       	if(realProductLoader == null) {
         	       		realProductLoader = new RealProduct();
-                        return realProductLoader.loadProducts();
+                        return realProductLoader.loadProducts(id);
                 	}
         	  }
         	

@@ -12,5 +12,5 @@ import astaOnlineProto.AstaOnLine.Articolo;
  */
 
 public interface ProductLoader {
-    List<Articolo> loadProducts();
+    List<Articolo> loadProducts(int id);
 }

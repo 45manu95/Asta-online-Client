@@ -1,51 +1,42 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
-import astaOnlineProto.AstaOnLine.Articolo;
-import proxy.*;
-import mediator.AccediMediator;
 
 
 public class FinestraHome extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private PannelloOvest p1=null;
-	private PannelloCentrale p2=null;
+	private PannelloCentraleVendita p2=null;
+	private PannelloCentraleVenduti p3=null;
+	private PannelloCentraleInteressati p4=null;
+	private PannelloCentraleMessaggi p5=null;
 	
-	//TextFields
-    JTextField email = new JTextField();
-    JPasswordField password = new JPasswordField();
+	private String ultimoPannello="PannelloCentraleVendita";
 
     //Labels
-    JLabel titleMenu = new JLabel("MENU");
+	private JLabel titleMenu = new JLabel("MENU");
     
     //bottoni
-    JButton purchaseArticles = new JButton("ARTICOLI IN VENDITA");
-    JButton purchasedArticles = new JButton("ARTICOLI ACQUISTATI");
-    JButton interestedArticles = new JButton("ARTICOLI INTERESSATI");
-    JButton messagesArticles = new JButton("MESSAGGI");
+	private JButton purchaseArticles = new JButton("ARTICOLI IN VENDITA");
+	private JButton purchasedArticles = new JButton("ARTICOLI ACQUISTATI");
+	private JButton interestedArticles = new JButton("ARTICOLI INTERESSATI");
+	private JButton messagesArticles = new JButton("MESSAGGI");
+    
+	private GridBagConstraints gbc = new GridBagConstraints();
     
     
     //ritocchi grafici	
@@ -58,7 +49,6 @@ public class FinestraHome extends JFrame {
 		setResizable(false);
 	    setLayout(new GridBagLayout());
 	    
-	    GridBagConstraints gbc = new GridBagConstraints();
 	    gbc.fill = GridBagConstraints.BOTH;
 
 	    p1 = new PannelloOvest();
@@ -68,7 +58,7 @@ public class FinestraHome extends JFrame {
 	    gbc.weighty = 1.0;
 	    add(p1, gbc);
 
-	    p2 = new PannelloCentrale();
+	    p2 = new PannelloCentraleVendita();
 	    gbc.gridx = 1;
 	    gbc.gridy = 0;
 	    gbc.weightx = 0.8; // Imposta il peso della colonna per il PannelloCentrale
@@ -78,7 +68,7 @@ public class FinestraHome extends JFrame {
 
 	}
 	
-	private class PannelloOvest extends JPanel{
+	private class PannelloOvest extends JPanel implements ActionListener {
 
 		private static final long serialVersionUID = 1L;		
 		
@@ -95,68 +85,65 @@ public class FinestraHome extends JFrame {
 			messagesArticles.setAlignmentX(CENTER_ALIGNMENT);
 
 		     add(Box.createVerticalGlue()); // Spazio vuoto sopra i bottoni
-		        add(titleMenu);
-		        add(Box.createVerticalGlue()); // Spazio vuoto tra il titolo e i bottoni
-		        add(purchaseArticles);
-		        add(purchasedArticles);
-		        add(interestedArticles);
-		        add(messagesArticles);
-		        add(Box.createVerticalGlue());
-			
+		     add(titleMenu);
+		     add(Box.createVerticalGlue()); // Spazio vuoto tra il titolo e i bottoni
+		     add(purchaseArticles);
+		     add(purchasedArticles);
+		     add(interestedArticles);
+		     add(messagesArticles);
+		     add(Box.createVerticalGlue());
+		     
+		     purchaseArticles.addActionListener(this);
+		     purchasedArticles.addActionListener(this);
+		     interestedArticles.addActionListener(this);
+		     messagesArticles.addActionListener(this);
+		      
 		}
 		
-	}
-	
-	private class PannelloCentrale extends JPanel{
 
-		private static final long serialVersionUID = 1L;
-		
-		private JPanel showProducts = new JPanel();
-		private JPanel centralInfo = new JPanel();
-		
-		private JLabel imageProduct = new JLabel(new ImageIcon("src/main/resources/images/image.png"));
-		private JLabel info = new JLabel("Caricamento in corso");
-		
-		public PannelloCentrale() {
-			 setLayout(new GridBagLayout()); 
-		        GridBagConstraints gbc = new GridBagConstraints();
-		        gbc.insets = new Insets(10, 10, 10, 10); // Aggiunge spaziatura
-		        gbc.gridx = 0;
-		        gbc.gridy = 0;
-		        gbc.anchor = GridBagConstraints.CENTER; // Allinea al centro
-		        
-		        centralInfo.setLayout(new BoxLayout(centralInfo, BoxLayout.Y_AXIS));
-		        
-		        imageProduct.setAlignmentX(Component.CENTER_ALIGNMENT);
-		        info.setAlignmentX(Component.CENTER_ALIGNMENT);
-		        
-		        centralInfo.add(imageProduct);
-		        centralInfo.add(info);
-		        
-		        add(centralInfo, gbc);
-		        
-		        RemoteProductLoaderProxy productLoader = new RemoteProductLoaderProxy();
-	            new Thread(() -> {
-	            	
-	            	
-	                List<Articolo> products = productLoader.loadProducts();
-	                SwingUtilities.invokeLater(() -> {
-		                
-		                showProducts.setLayout(new GridLayout(0, 3));
-	                    for (Articolo product : products) {
-	                    	ProductPanel productPanel = new ProductPanel(product);
-	                        showProducts.add(productPanel);
-	                    }
-	                    remove(centralInfo);
-	                    setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-	                    JScrollPane scrollPane = new JScrollPane(showProducts);
-	                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		                add(scrollPane, gbc);
-	                    revalidate(); 
-	                });
-	            }).start();
+	    @Override
+	    public void actionPerformed(ActionEvent evt) {		
+	        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+	    	rimuovi(frame);
+	    	if(evt.getSource() == purchaseArticles) {
+				p2 = new PannelloCentraleVendita();
+				ultimoPannello = "PannelloCentraleVendita";
+				frame.add(p2,gbc);
+			}
+			else if(evt.getSource() == purchasedArticles) {
+				p3 = new PannelloCentraleVenduti();
+				ultimoPannello = "PannelloCentraleVenduti";
+				frame.add(p3,gbc);
+			}
+			else if(evt.getSource() == interestedArticles) {
+				p4 = new PannelloCentraleInteressati();
+				ultimoPannello = "PannelloCentraleInteressati";
+				frame.add(p4,gbc);
+			}
+			else if(evt.getSource() == messagesArticles) {
+				p5 = new PannelloCentraleMessaggi();
+				ultimoPannello = "PannelloCentraleMessaggi";
+				frame.add(p5,gbc);
+			}
+	    	frame.revalidate();
+	    	frame.repaint();
+		}
+	    
+	    private void rimuovi(JFrame frame) {
+	    	//recupero il frame genitore ed elimino il panel corrente
+	        if(ultimoPannello.equals("PannelloCentraleVendita")) {
+		        frame.remove(p2);
 	        }
-
-		}
+	        else if(ultimoPannello.equals("PannelloCentraleVenduti")) {
+		        frame.remove(p3);
+	        }
+	        else if(ultimoPannello.equals("PannelloCentraleInteressati")) {
+		        frame.remove(p4);
+	        }
+	        else if(ultimoPannello.equals("PannelloCentraleMessaggi")) {
+		        frame.remove(p5);
+	        }
+	    }
 		
-	}
+	}	
+}

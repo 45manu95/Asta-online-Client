@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import astaOnlineProto.AstaOnLine.Articolo;
+import mediator.InviaOffertaMediator;
 
 public class FinestraOfferta extends JFrame {
 
@@ -31,6 +32,8 @@ public class FinestraOfferta extends JFrame {
 	private JLabel offerLabel = new JLabel("Inserisci offerta: ");
 	private JTextField offer = new JTextField();
 	private JButton send = new JButton("INVIA");
+	
+	private InviaOffertaMediator inviaOffertaMediator;
 	
 	public FinestraOfferta(Articolo articolo) {
 		setTitle("Invia offerta");
@@ -62,8 +65,9 @@ public class FinestraOfferta extends JFrame {
 		send.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-                  new FinestraSubscribe().setVisible(true);
-                  dispose();
+                  inviaOffertaMediator = new InviaOffertaMediator();
+                  inviaOffertaMediator.setDati(offer, send, articolo.getId());
+                  inviaOffertaMediator.notify(send);
             }
         });
 		

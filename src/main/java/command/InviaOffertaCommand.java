@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import astaOnlineProto.AstaOnLine.Offerta;
 import astaOnlineProto.AstaOnLine.Utente;
 import gui.FinestraHome;
 import gui.FinestraLogin;
+import gui.News;
 import singleton.ServerIstance;
 import singleton.UserIstance;
 import utils.Utils;
@@ -66,6 +68,7 @@ public class InviaOffertaCommand implements ActionListener {
 	                new FinestraHome().setVisible(true);
                     frameMessage.dispose();
 	                chiudiFinestreAperte();
+	                gestisciNotifiche();
 	            }
 	        });
 		}
@@ -101,5 +104,15 @@ public class InviaOffertaCommand implements ActionListener {
             }
         }
 	}
-		
+
+	private void gestisciNotifiche() {
+	    Thread notificationThread = new Thread(() -> {
+	        Articolo articolo = Articolo.newBuilder().setId(articolo_id).build(); 
+	        while(true) {
+		        MessaggioGenerico messaggio = ServerIstance.getBlockingStub().riceviNotifiche(articolo);
+		        new News(messaggio.getMessaggio()).setVisible(true);
+	        }
+	    });
+	    notificationThread.start();
+	}
 }

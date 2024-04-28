@@ -119,9 +119,8 @@ public class ServerGrpc implements ServerGenerico {
 	  }
 
 	  @Override
-	  public MessaggioGenerico riceviNotifiche(Empty empty) {
-		  Empty request = Empty.newBuilder().build();
-		  MessaggioGenerico messaggio = blockingStub.riceviNotifiche(request);
+	  public MessaggioGenerico riceviNotifiche(Articolo articolo) {
+		  MessaggioGenerico messaggio = blockingStub.riceviNotifiche(articolo);
 		  return messaggio;
 	  }
 

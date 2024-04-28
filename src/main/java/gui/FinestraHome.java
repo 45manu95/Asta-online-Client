@@ -41,7 +41,7 @@ public class FinestraHome extends JFrame {
     
     //ritocchi grafici	
 	public FinestraHome() {
-		setTitle("Asta Online");
+		setTitle("Asta Online CLIENT");
 		setSize(1100,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);

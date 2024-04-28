@@ -104,7 +104,7 @@ public interface ServerGenerico {
 	* @return messaggio di avviso
 	* @see MessaggioGenerico
 	*/	
-	MessaggioGenerico riceviNotifiche(Empty empty);
+	MessaggioGenerico riceviNotifiche(Articolo articolo);
 
 }
 

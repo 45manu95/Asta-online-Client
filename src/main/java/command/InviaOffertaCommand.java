@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.CountDownLatch;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -13,15 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import astaOnlineProto.AstaOnLine.Articolo;
+import astaOnlineProto.AstaOnLine.ArticoloNotifica;
 import astaOnlineProto.AstaOnLine.MessaggioGenerico;
 import astaOnlineProto.AstaOnLine.Offerta;
 import astaOnlineProto.AstaOnLine.Utente;
 import gui.FinestraHome;
-import gui.FinestraLogin;
-import gui.News;
-import singleton.ServerIstance;
-import singleton.UserIstance;
-import utils.Utils;
+import singleton.NewsMessage;
+import singleton.*;
 
 public class InviaOffertaCommand implements ActionListener {
 
@@ -65,7 +62,6 @@ public class InviaOffertaCommand implements ActionListener {
 			button.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                new FinestraHome().setVisible(true);
                     frameMessage.dispose();
 	                chiudiFinestreAperte();
 	                gestisciNotifiche();
@@ -100,17 +96,19 @@ public class InviaOffertaCommand implements ActionListener {
         for (Window window : windows) {
             if (window instanceof JFrame && window.isVisible()) {
                 ((JFrame) window).dispose();
-                break; // Uscita dal ciclo dopo aver chiuso il frame desiderato
             }
         }
+        new FinestraHome().setVisible(true);
 	}
 
 	private void gestisciNotifiche() {
 	    Thread notificationThread = new Thread(() -> {
-	        Articolo articolo = Articolo.newBuilder().setId(articolo_id).build(); 
+	    	int k=0;
 	        while(true) {
-		        MessaggioGenerico messaggio = ServerIstance.getBlockingStub().riceviNotifiche(articolo);
-		        new News(messaggio.getMessaggio()).setVisible(true);
+	        	ArticoloNotifica articoloNotifica = ArticoloNotifica.newBuilder().setIndexNotifica(k).setArticolo(Articolo.newBuilder().setId(articolo_id)).build();
+		        MessaggioGenerico messaggio = ServerIstance.getBlockingStub().riceviNotifiche(articoloNotifica);
+		        NewsMessage.aggiungiMessaggio(messaggio.getMessaggio());
+		        k++;
 	        }
 	    });
 	    notificationThread.start();

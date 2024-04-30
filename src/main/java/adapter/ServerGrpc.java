@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import astaOnlineProto.AstaOnLine.Articoli;
 import astaOnlineProto.AstaOnLine.Articolo;
+import astaOnlineProto.AstaOnLine.ArticoloNotifica;
 import astaOnlineProto.AstaOnLine.Empty;
 import astaOnlineProto.AstaOnLine.MessaggioGenerico;
 import astaOnlineProto.AstaOnLine.Offerta;
@@ -37,7 +38,7 @@ public class ServerGrpc implements ServerGenerico {
 	  
 	  @Override
 	  public void openSocket(String host, int port) {
-	        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+	        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().maxInboundMessageSize(1024 * 1024 * 1024).build();
 	        /*
 	         * useTransportSecurity() indica che si desidera utilizzare una connessione 
 	         * sicura per la comunicazione con il server gRPC. Particolarmente utile in
@@ -119,8 +120,8 @@ public class ServerGrpc implements ServerGenerico {
 	  }
 
 	  @Override
-	  public MessaggioGenerico riceviNotifiche(Articolo articolo) {
-		  MessaggioGenerico messaggio = blockingStub.riceviNotifiche(articolo);
+	  public MessaggioGenerico riceviNotifiche(ArticoloNotifica ArticoloNotifica) {
+		  MessaggioGenerico messaggio = blockingStub.riceviNotifiche(ArticoloNotifica);
 		  return messaggio;
 	  }
 

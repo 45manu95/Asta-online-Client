@@ -19,6 +19,7 @@ import proxy.RemoteProductLoaderProxy;
 
 public class PannelloCentraleVendita extends JPanel{
 	private final int ID = 1; //questo ID serve per dire che dal proxy si vogliono ottenere oggetti in vendita
+	private final boolean ASTACONCLUSA = false; //serve a non far comparire il bottone "invia offerta"
 
 	private static final long serialVersionUID = 1L;
 	
@@ -57,7 +58,7 @@ public class PannelloCentraleVendita extends JPanel{
 	                
 	                showProducts.setLayout(new GridLayout(0, 3));
                     for (Articolo product : products) {
-                    	ProductPanel productPanel = new ProductPanel(product);
+                    	ProductPanel productPanel = new ProductPanel(product,ASTACONCLUSA);
                         showProducts.add(productPanel);
                     }
                     remove(centralInfo);

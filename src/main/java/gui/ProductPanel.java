@@ -44,8 +44,12 @@ public class ProductPanel extends JPanel {
 	private JLabel description;
 	private JLabel price;
 	
+	private boolean astaConclusa;
 	
-	public ProductPanel(Articolo articolo) {
+	
+	public ProductPanel(Articolo articolo, boolean astaConclusa) {
+		this.astaConclusa = astaConclusa;
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(Color.WHITE);
 		
@@ -185,8 +189,9 @@ public class ProductPanel extends JPanel {
 			disposition.add(dateStartDisposition);
 			disposition.add(dateEndDisposition);
 			disposition.add(timerDisposition);
-			disposition.add(buttonDisposition);
-			
+			if(!astaConclusa) {
+				disposition.add(buttonDisposition);
+			}
 			add(disposition, BorderLayout.CENTER);
 		}
 		
@@ -208,7 +213,7 @@ public class ProductPanel extends JPanel {
 		        timer.stop();
 		    } else {
 		        long secondsLeft = millisecondsLeft / 1000;
-		        long days = secondsLeft / 86400; // 86400 secondi in un giorno
+		        long days = secondsLeft / 86400; 
 		        long hours = (secondsLeft % 86400) / 3600;
 		        long minutes = (secondsLeft % 3600) / 60;
 		        long seconds = secondsLeft % 60;

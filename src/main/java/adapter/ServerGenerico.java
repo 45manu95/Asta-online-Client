@@ -3,6 +3,7 @@ package adapter;
 import java.util.List;
 
 import astaOnlineProto.AstaOnLine.Articolo;
+import astaOnlineProto.AstaOnLine.ArticoloNotifica;
 import astaOnlineProto.AstaOnLine.Empty;
 import astaOnlineProto.AstaOnLine.MessaggioGenerico;
 import astaOnlineProto.AstaOnLine.Offerta;
@@ -104,7 +105,7 @@ public interface ServerGenerico {
 	* @return messaggio di avviso
 	* @see MessaggioGenerico
 	*/	
-	MessaggioGenerico riceviNotifiche(Articolo articolo);
+	MessaggioGenerico riceviNotifiche(ArticoloNotifica articoloNotifica);
 
 }
 

@@ -39,6 +39,7 @@ public class PannelloCentraleMessaggi extends JPanel {
         gbc.fill = GridBagConstraints.BOTH; 
         add(scrollPane, gbc);
         
+    	messageArea.setText("");
         for(String messaggio : NewsMessage.getIstance()) {
             messageArea.append(messaggio+"\n");
             messageArea.setCaretPosition(messageArea.getDocument().getLength());

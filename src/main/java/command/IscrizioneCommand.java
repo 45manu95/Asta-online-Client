@@ -2,6 +2,7 @@ package command;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -59,8 +60,9 @@ public class IscrizioneCommand implements ActionListener {
 			button.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                new FinestraHome().setVisible(true);
                     frameMessage.dispose();
+	                chiudiFinestreAperte();
+	                new FinestraHome().setVisible(true);
 	                UserIstance.setDati(email, password);
 	            }
 	        });
@@ -88,6 +90,16 @@ public class IscrizioneCommand implements ActionListener {
 
 		frameMessage.add(panel);
 		frameMessage.pack(); 
+	}
+	
+	private void chiudiFinestreAperte() {
+		Window[] windows = Window.getWindows();
+        for (Window window : windows) {
+            if (window instanceof JFrame && window.isVisible()) {
+                ((JFrame) window).dispose();
+            }
+        }
+        new FinestraHome().setVisible(true);
 	}
 
 }

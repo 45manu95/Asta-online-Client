@@ -64,7 +64,7 @@ public class InviaOffertaCommand implements ActionListener {
 	            public void actionPerformed(ActionEvent e) {
                     frameMessage.dispose();
 	                chiudiFinestreAperte();
-	                gestisciNotifiche();
+	                gestisciNotifiche(articolo_id);
 	            }
 	        });
 		}
@@ -95,22 +95,25 @@ public class InviaOffertaCommand implements ActionListener {
 		Window[] windows = Window.getWindows();
         for (Window window : windows) {
             if (window instanceof JFrame && window.isVisible()) {
-                ((JFrame) window).dispose();
+            	((JFrame) window).dispose();
             }
         }
         new FinestraHome().setVisible(true);
 	}
 
-	private void gestisciNotifiche() {
-	    Thread notificationThread = new Thread(() -> {
-	    	int k=0;
-	        while(true) {
-	        	ArticoloNotifica articoloNotifica = ArticoloNotifica.newBuilder().setIndexNotifica(k).setArticolo(Articolo.newBuilder().setId(articolo_id)).build();
-		        MessaggioGenerico messaggio = ServerIstance.getBlockingStub().riceviNotifiche(articoloNotifica);
-		        NewsMessage.aggiungiMessaggio(messaggio.getMessaggio());
-		        k++;
-	        }
-	    });
-	    notificationThread.start();
+	private void gestisciNotifiche(int articolo_id) {
+		if(NewsMessage.getIndex(articolo_id) == 0) {
+			Thread notificationThread = new Thread(() -> {
+		        while(true) {
+					int k = NewsMessage.getIndex(articolo_id);
+		        	ArticoloNotifica articoloNotifica = ArticoloNotifica.newBuilder().setIndexNotifica(k).setArticolo(Articolo.newBuilder().setId(articolo_id)).build();
+			        MessaggioGenerico messaggio = ServerIstance.getBlockingStub().riceviNotifiche(articoloNotifica);
+			        NewsMessage.aggiungiMessaggio(messaggio.getMessaggio());
+			        k=k+1;
+			        NewsMessage.setIndex(articolo_id, k);
+		        }
+		    });
+		    notificationThread.start();	
+		}
 	}
 }

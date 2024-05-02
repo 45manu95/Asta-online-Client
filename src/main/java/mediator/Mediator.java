@@ -8,7 +8,6 @@ import javax.swing.JComponent;
  * con la parte che si occuperà di gestire l'azione
  * Questa interfaccia funge da Mediator
  */
-
 public interface Mediator {
 	/**
 	 * gestisce una determinata azione in base al component passato per parametro

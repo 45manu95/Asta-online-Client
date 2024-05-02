@@ -15,7 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-
+/**
+ * Visualizza la Home del Client, per default impostata a prodotto con asta in corso
+ */
 public class FinestraHome extends JFrame {
 	private static final long serialVersionUID = 1L;
 	

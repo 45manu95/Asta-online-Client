@@ -11,6 +11,11 @@ import javax.swing.JTextArea;
 
 import singleton.NewsMessage;
 
+/**
+ * In questa classe vengono visualizzati tutti i messaggi riguardanti i prodotti 
+ * con cui il cliente interagisce. Vengono ricevute nuove offerte e 
+ * l'aggiudicamento del prodotto alla fine dell'asta
+ */
 public class PannelloCentraleMessaggi extends JPanel {
 
 	private static final long serialVersionUID = 1L;

@@ -18,8 +18,6 @@ import javax.swing.JTextField;
 
 import mediator.AccediMediator;
 
-
-
 public class FinestraSubscribe extends JFrame{
 	
 	private static final long serialVersionUID = 1L;

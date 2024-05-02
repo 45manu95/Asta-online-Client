@@ -20,6 +20,13 @@ import gui.FinestraHome;
 import singleton.NewsMessage;
 import singleton.*;
 
+/**
+ * DESIGN PATTERN COMMAND
+ * Questa classe rappresenta nella struttura generale il ConcreteCommand, la quale
+ * va ad implementare l'interfaccia che nella struttura generale si riferisce al
+ * Command (ActionListener). L'invoker in questo caso risulta rappresentato 
+ * dal Mediator corrispondente.
+ */
 public class InviaOffertaCommand implements ActionListener {
 
 	private String offer;
@@ -44,6 +51,13 @@ public class InviaOffertaCommand implements ActionListener {
         displayMessage(messagge.getMessaggio());
 	}
 	
+	/**
+	 * Con il seguente metodo facciamo comparire un frame che visualizza il messaggio
+	 * di risposta dal server. Per capire se risulta un messaggio di successo o no, il
+	 * server manda sempre come prima parola "SUCCESSO" oppure "ERRORE". In base a
+	 * questo si capisce se si deve proseguire oppure rimanere tornare indietro.
+	 * @param message
+	 */
 	private void displayMessage(String message) {
 		frameMessage = new JFrame("Messaggio");
 		frameMessage.setVisible(true);
@@ -91,6 +105,10 @@ public class InviaOffertaCommand implements ActionListener {
 		frameMessage.pack(); 
 	}
 	
+	/**
+	 * Chiudiamo tutti i frame che non sono necessari una volta che il server 
+	 * risponde con un messaggio di "SUCCESSO"
+	 */
 	private void chiudiFinestreAperte() {
 		Window[] windows = Window.getWindows();
         for (Window window : windows) {
@@ -101,6 +119,19 @@ public class InviaOffertaCommand implements ActionListener {
         new FinestraHome().setVisible(true);
 	}
 
+	/**
+	 * SISTEMA PER LA GESTIONE NOTIFICHE
+	 * Ogni volta che viene inviata un offerta, il client per far si che non rimanga
+	 * in attesa di notifica bloccante crea un nuovo Thread che va a interfacciarsi
+	 * con il server e richiedere la notifica all'index k-esimo. Significa che
+	 * all'invio di una prima offerta (quando il cliente si registra a ricevere notifiche
+	 * su un determinato prodotto) si chiede al server di inviare il messaggio
+	 * di quel determinato prodotto alla posizione k=0, se esiste un messaggio da 
+	 * inviare, altrimenti aspetta. Una volta che il messaggio arriva allora si
+	 * reitera aspettando per il messaggio alla posizione k=1 ecc.
+	 * Viene creato un solo Thread per ogni articolo di cui si è interessati
+	 * @param articolo_id
+	 */
 	private void gestisciNotifiche(int articolo_id) {
 		if(NewsMessage.getIndex(articolo_id) == 0) {
 			Thread notificationThread = new Thread(() -> {

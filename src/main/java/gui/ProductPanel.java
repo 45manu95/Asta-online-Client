@@ -195,6 +195,12 @@ public class ProductPanel extends JPanel {
 			add(disposition, BorderLayout.CENTER);
 		}
 		
+		/**
+		 * In modo da tenere informato il cliente su quando l'asta si conclude.
+		 * Viene effettuato un semplice calcolo tramite l'invio della stringa di 
+		 * fine data come parametro
+		 * @param end
+		 */
 		private void updateCountdown(String end) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date endDate;

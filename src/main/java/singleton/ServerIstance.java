@@ -3,6 +3,10 @@ package singleton;
 import adapter.ServerGrpc;
 import astaOnlineProto.AstaServiceGrpc;
 
+/**
+ * DESIGN PATTERN SINGLETON
+ * Utilizzato per avere una sola istanza globale di strutture dati e metodi per accedervi.
+ */
 public class ServerIstance {
 	private static ServerGrpc server;
 	private static String host;

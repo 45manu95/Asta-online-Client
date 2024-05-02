@@ -11,6 +11,14 @@ import javax.swing.JTextField;
 
 import command.InviaOffertaCommand;
 
+/**
+ * DESIGN PATTERN MEDIATOR
+ * Per incapsulare il modo in si interagisce per accedere al sistema. 
+ * Viene disaccoppiata l'azione dalla sua rappresentazione grafica e per dare
+ * anche qualche controllata sulle informazioni passate al server
+ * In questo caso come struttura generale questa classe corrisponde a Mediator1,
+ * il quale implementa la sua interfaccia Mediator
+ */
 public class InviaOffertaMediator implements Mediator {
 	//Frame in caso di errore
 			private JFrame frameError = new JFrame();

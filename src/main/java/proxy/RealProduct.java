@@ -8,6 +8,10 @@ import astaOnlineProto.AstaOnLine.Empty;
 import singleton.ServerIstance;
 import singleton.UserIstance;
 
+/**
+ * DESIGN PATTERN PROXY
+ * Classe effettiva dove vengono caricati gli articoli
+ */
 public class RealProduct implements ProductLoader {
 	private final ServerGrpc server = ServerIstance.getIstance();
 

@@ -17,6 +17,9 @@ import javax.swing.SwingUtilities;
 import astaOnlineProto.AstaOnLine.Articolo;
 import proxy.RemoteProductLoaderProxy;
 
+/**
+ * Vengono mostrati i prodotti venduti al cliente stesso
+ */
 public class PannelloCentraleVenduti extends JPanel {
 	private final int ID = 2; //questo ID serve per dire che dal proxy si vogliono ottenere oggetti venduti a questo utente
 	private final boolean ASTACONCLUSA = true; //serve a non far comparire il bottone "invia offerta"
@@ -31,7 +34,10 @@ public class PannelloCentraleVenduti extends JPanel {
 	
     private GridBagConstraints gbc = new GridBagConstraints();
 
-	
+	/**
+	 * Mentre tramite il design pattern PROXY si caricano i prodotti
+	 * viene fornita un immagine surrogato indicante il "caricamento in corso"
+	 */
 	public PannelloCentraleVenduti() {
 		 setLayout(new GridBagLayout()); 
 	        gbc.insets = new Insets(10, 10, 10, 10); // Aggiunge spaziatura
@@ -57,15 +63,19 @@ public class PannelloCentraleVenduti extends JPanel {
                 SwingUtilities.invokeLater(() -> {
 	                
 	                showProducts.setLayout(new GridLayout(0, 3));
-                    for (Articolo product : products) {
-                        showProducts.add(new ProductPanel(product,ASTACONCLUSA));
-                    }
-                    remove(centralInfo);
-                    setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-                    JScrollPane scrollPane = new JScrollPane(showProducts);
-                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	                add(scrollPane, gbc);
-                    revalidate(); 
+	                if(products.size() != 0) {
+	                	for (Articolo product : products) {
+	                    	ProductPanel productPanel = new ProductPanel(product,ASTACONCLUSA);
+	                        showProducts.add(productPanel);
+	                    }
+	                    remove(centralInfo);
+	                    setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+	                    JScrollPane scrollPane = new JScrollPane(showProducts);
+	                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		                add(scrollPane, gbc);
+	                    revalidate(); 
+	                }
+                    info.setText("Nessun elemento da visualizzare");
                 });
             }).start();
         }

@@ -8,9 +8,10 @@ import astaOnlineProto.AstaOnLine.Articolo;
 
 /**
  * DESIGN PATTERN PROXY
- * 
+ * In questo caso prima di richiedere i prodotti si fanno alcuni controlli, come ad
+ * esempio la presenza di connessione a Internet. In futuro questa classe si può 
+ * arricchire di nuove funzionalità per rendere il proxy ancora più significativo
  */
-
 public class RemoteProductLoaderProxy implements ProductLoader {
 	private RealProduct realProductLoader;
 

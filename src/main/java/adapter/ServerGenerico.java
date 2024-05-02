@@ -11,7 +11,7 @@ import astaOnlineProto.AstaOnLine.Utente;
 
 /**
  * DESIGN PATTERN ADAPTER
- * Target: L'interfaccia Server rappresenta il Target. s
+ * Target: L'interfaccia Server rappresenta il Target.
  * Questa è l'interfaccia che il client del nostro sistema utilizza 
  * per eseguire le operazioni di asta, come avviare il sistema o terminarlo.
  */
@@ -51,15 +51,6 @@ public interface ServerGenerico {
     * @see MessaggioGenerico
     */
     MessaggioGenerico accediUtente(Utente utente);
-	
-    /**
-    * notificaSuccesso() fa accedere l'utente al sistema
-    * 
-    * @param utente serve per trasferire le sue informazioni per l'accesso
-    * @return un messaggio di avvenuto accesso o di un imprevisto (es. password errata)
-    * @see MessaggioGenerico
-    */
-	MessaggioGenerico notificaSuccesso(Empty empty);
 	
     /**
     * visualizzaArticoliAcquistati() visualizza gli articoli acquistati da utente

@@ -19,12 +19,25 @@ import singleton.ServerIstance;
 import singleton.UserIstance;
 import utils.Utils;
 
+/**
+ * DESIGN PATTERN COMMAND
+ * Questa classe rappresenta nella struttura generale il ConcreteCommand, la quale
+ * va ad implementare l'interfaccia che nella struttura generale si riferisce al
+ * Command (ActionListener). L'invoker in questo caso risulta rappresentato 
+ * dal Mediator corrispondente.
+ */
 public class AccessCommand implements ActionListener {
 
 	private String email, password;
 	
 	private JFrame frameMessage;
 	
+	/**
+	 * Riempimento dei dati per poi procedere con l'invio. La password nel database
+	 * viene memorizzata criptata per questioni di sicurezza.
+	 * @param email
+	 * @param password
+	 */
 	public void setDati(String email, String password) {
 		this.email = email;
 		this.password = Utils.crittografia(password);
@@ -39,6 +52,13 @@ public class AccessCommand implements ActionListener {
         displayMessage(messagge.getMessaggio());
 	}
 	
+	/**
+	 * Con il seguente metodo facciamo comparire un frame che visualizza il messaggio
+	 * di risposta dal server. Per capire se risulta un messaggio di successo o no, il
+	 * server manda sempre come prima parola "SUCCESSO" oppure "ERRORE". In base a
+	 * questo si capisce se si deve proseguire oppure rimanere tornare indietro.
+	 * @param message
+	 */
 	private void displayMessage(String message) {
 		frameMessage = new JFrame("Messaggio");
 		frameMessage.setVisible(true);
@@ -90,6 +110,10 @@ public class AccessCommand implements ActionListener {
 		frameMessage.pack(); 
 	}
 	
+	/**
+	 * Chiudiamo tutti i frame che non sono necessari una volta che il server 
+	 * risponde con un messaggio di "SUCCESSO"
+	 */
 	private void chiudiFinestreAperte() {
 		Window[] windows = Window.getWindows();
         for (Window window : windows) {

@@ -3,6 +3,9 @@ package utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Metodi che potrebbero servire per arricchire il sistema di dettagli e renderlo completo.
+ */
 public class Utils {
 	public static String crittografia(String message) {
 		try {

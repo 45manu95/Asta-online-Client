@@ -18,9 +18,6 @@ import mediator.AccediMediator;
 public class FinestraLogin extends JFrame{
 	private static final long serialVersionUID = 1L;
 
-	private PannelloOvest p1=null;
-	private PannelloLogin p2=null;
-	
 	//TextFields
     JTextField email = new JTextField();
     JPasswordField password = new JPasswordField();
@@ -51,8 +48,8 @@ public class FinestraLogin extends JFrame{
 		setBackground(Color.WHITE);
 		setResizable(false);
 		
-		add(p1 = new PannelloOvest());
-		add(p2 = new PannelloLogin());
+		add(new PannelloOvest());
+		add(new PannelloLogin());
 	}
 	
 	private class PannelloLogin extends JPanel{

@@ -14,7 +14,7 @@ import astaOnlineProto.AstaServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
-/*
+/**
  * DESIGN PATTERN ADAPTER
  * Possiamo identificare le seguenti componenti in questo file java:
  * 
@@ -39,14 +39,8 @@ public class ServerGrpc implements ServerGenerico {
 	  @Override
 	  public void openSocket(String host, int port) {
 	        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().maxInboundMessageSize(1024 * 1024 * 1024).build();
-	        /*
-	         * useTransportSecurity() indica che si desidera utilizzare una connessione 
-	         * sicura per la comunicazione con il server gRPC. Particolarmente utile in
-	         * sistema, dove si ha a che fare con autenticazioni e gestione di
-	         * risorse economiche 
-	         */
 	                
-	        /*
+	        /**
 	         * Generiamo uno stub bloccante, una classe generata dal compilatore gRPC 
 	         * che fornisce metodi che possono essere chiamati in modo sincrono per 
 	         * inviare richieste RPC al server e ricevere risposte. 
@@ -55,18 +49,18 @@ public class ServerGrpc implements ServerGenerico {
 	         */
 	        blockingStub = AstaServiceGrpc.newBlockingStub(channel);
 	  }
-
+	  
+      /**
+       * Questo metodo attende fino a che il canale non è completamente 
+       * terminato (chiuso) o fino a quando non è trascorso il tempo 
+       * specificato (5 secondi in questo caso), a seconda di quale 
+       * evento si verifica prima. Attendere un tempo limitato è utile 
+       * per evitare blocchi infiniti nel caso in cui il canale non si 
+       * chiuda correttamente per qualche motivo.
+       */
 	  @Override
 	  public void closeSocket() throws InterruptedException {
 	        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
-	        /*
-	         * Questo metodo attende fino a che il canale non è completamente 
-	         * terminato (chiuso) o fino a quando non è trascorso il tempo 
-	         * specificato (5 secondi in questo caso), a seconda di quale 
-	         * evento si verifica prima. Attendere un tempo limitato è utile 
-	         * per evitare blocchi infiniti nel caso in cui il canale non si 
-	         * chiuda correttamente per qualche motivo.
-	         */
 	  }
 	  
 	  public AstaServiceGrpc.AstaServiceBlockingStub getBlockingStub() {
@@ -83,12 +77,6 @@ public class ServerGrpc implements ServerGenerico {
 	  public MessaggioGenerico accediUtente(Utente utente) {
 		MessaggioGenerico messaggio = blockingStub.accediUtente(utente);
 		return messaggio;
-	  }
-
-	  @Override
-	  public MessaggioGenerico notificaSuccesso(Empty empty) {
-		  MessaggioGenerico messaggio = blockingStub.notificaSuccesso(empty);
-		  return messaggio;
 	  }
 
 	  @Override

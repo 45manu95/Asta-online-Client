@@ -1,8 +1,6 @@
 package proxy;
 
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
 import java.util.List;
 import astaOnlineProto.AstaOnLine.Articolo;
 

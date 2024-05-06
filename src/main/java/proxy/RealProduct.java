@@ -1,7 +1,6 @@
 package proxy;
 
 import java.util.List;
-import adapter.ServerGenerico;
 import adapter.ServerGrpc;
 import astaOnlineProto.AstaOnLine.Articolo;
 import astaOnlineProto.AstaOnLine.Empty;

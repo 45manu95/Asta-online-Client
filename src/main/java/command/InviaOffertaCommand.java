@@ -46,9 +46,9 @@ public class InviaOffertaCommand implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Offerta offerta = Offerta.newBuilder().setArticoloId(articolo_id).setEmailUser(user.getEmail()).setValoreOfferta(Float.parseFloat(offer)).build();
-		MessaggioGenerico messagge = ServerIstance.getBlockingStub().inviaOfferta(offerta);
+		MessaggioGenerico message = ServerIstance.getBlockingStub().inviaOfferta(offerta);
 
-        displayMessage(messagge.getMessaggio());
+        displayMessage(message.getMessaggio());
 	}
 	
 	/**

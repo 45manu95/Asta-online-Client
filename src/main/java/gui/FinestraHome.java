@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -45,8 +47,13 @@ public class FinestraHome extends JFrame {
 	public FinestraHome() {
 		setTitle("Asta Online CLIENT");
 		setSize(1100,600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                new FinestraLogin().setVisible(true);
+                dispose();
+            }
+        });				setLocationRelativeTo(null);
 	    setBackground(Color.WHITE);
 		setResizable(false);
 	    setLayout(new GridBagLayout());
